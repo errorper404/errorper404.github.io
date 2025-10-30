@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hello I'm Vinay</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700&family=Tulpen+One&family=Edu+NSW+ACT+Cursive:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="contact.css">
+<link rel="stylesheet" href="style-social.css">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+html {
+  scroll-behavior: smooth; /* Restore native smooth scroll */
+  overscroll-behavior-y: none;
+}
+
+body {
+  /* Remove snap to allow natural scrolling */
+  scroll-padding-top: 80px;
+}
+
+.section-top, .section-bottom, .section-why, .section-contact {
+  scroll-margin-top: 80px;
+  min-height: 100vh;
+  position: relative;
+}
+
+
+/* ===== GENERAL SETTINGS ===== */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: #0c1624;
+    overflow-y: auto;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+:root{
+  --bg-1: #071324;    /* deep navy */
+  --bg-2: #001328;    /* darker blue */
+  --accent: #2e9eff;  /* main cyan */
+  --accent-2: #7dd3fc; /* light cyan */
+  --soft: rgba(46,158,255,0.12);
+  --glass: rgba(12,22,36,0.6);
+}
+
+body::-webkit-scrollbar { display: none; }
+
+/* ===== RICH BACKGROUND GRADIENT ===== */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1200px 800px at 10% 20%, rgba(125,211,252,0.06), transparent 15%),
+    radial-gradient(1000px 700px at 90% 80%, rgba(46,158,255,0.04), transparent 12%),
+    linear-gradient(120deg, var(--bg-1) 0%, var(--bg-2) 60%);
+  background-size: 150% 150%, 140% 140%, 100% 100%;
+  animation: gradientMove 18s ease-in-out infinite;
+}
+@keyframes gradientMove {
+    0% { background-position: 40% 40%; }
+    25% { background-position: 60% 45%; }
+    50% { background-position: 50% 60%; }
+    75% { background-position: 45% 50%; }
+    100% { background-position: 40% 40%; }
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(12,22,36,0.85);
+    backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    z-index: 1000;
+    transition: top 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease;
+}
+.navbar.hide { top: -80px; opacity: 0; }
+.navbar a {
+    color: #2e9eff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+.navbar a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: #2e9eff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+    z-index: -1;
+}
+.navbar a:hover {
+    color: #0c1624;
+    box-shadow: 0 0 25px rgba(46,158,255,0.6);
+    transform: scale(1.06);
+}
+.navbar a:hover::before {
+    width: 300%;
+    height: 300%;
+}
+
+/* ===== NAVBAR TOGGLE ===== */
+.navbar-toggle {
+    position: fixed;
+    top: 12px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: #007aff;
+    color: #0c1624;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0,122,255,0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1100;
+}
+.navbar-toggle:hover {
+    transform: scale(1.2) rotate(90deg);
+    box-shadow: 0 0 30px rgba(0,122,255,0.8);
+}
+
+/* ===== IMPROVED FADE-IN (SMOOTH & SCALED) =====
+   Updated: elements will translateY + scale + fade. Use data-delay for staggering. */
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(40px) scale(0.985);
+    transition: opacity 700ms cubic-bezier(.2,.9,.2,1), transform 700ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform;
+}
+.fade-in-section.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* add a little helper for stagger (JS sets style.transitionDelay) */
+.fade-in-stagger { will-change: opacity, transform; }
+
+/* ===== HERO SECTION ===== */
+.section-top {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    perspective: 800px;
+    padding-top: 80px;
+}
+.text-block { position: relative; color: #2e9eff; transition: transform 0.22s ease-out; z-index: 5; text-align:center; }
+.role-top { position: absolute; top: -40px; left: 5px; font-size: 16px; font-weight: 700; letter-spacing: 2px; }
+.main-text h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: 130px;
+    margin: 0;
+    color: #2e9eff;
+    text-shadow: 0 0 10px rgba(46,158,255,0.4), 0 0 20px rgba(46,158,255,0.3);
+    line-height: 0.9;
+}
+.main-text h1 span {
+    display: block;
+    font-family: 'Tulpen One', sans-serif;
+    font-size: 160px;
+    color: #2e9eff;
+    text-shadow: 0 0 12px rgba(46,158,255,0.5), 0 0 25px rgba(46,158,255,0.3);
+    line-height: 1.1;
+    text-align: right;
+}
+.role-bottom { position: absolute; bottom: -30px; right: 10px; font-size: 16px; font-weight: 700; letter-spacing: 2px; color: #2e9eff; }
+
+/* avatar circle + avatar image */
+.image-circle {
+    position: relative;
+    border-radius: 50%;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, #007aff, #003366);
+    animation: glowPulse 3s ease-in-out infinite;
+    box-shadow: 0 0 60px rgba(0,122,255,0.6);
+    transition: transform 0.22s ease-out;
+    z-index: 4;
+}
+
+
+
+.image-circle img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: drop-shadow(0 0 25px #2e9eff);
+    transition: transform 0.22s ease-out;
+}
+
+/* subtle parallax target (will move on scroll a little) */
+[data-parallax] { will-change: transform; }
+
+/* ===== THUMBNAIL SECTION ===== */
+.section-bottom {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 60px 20px;
+}
+.section-bottom h2 { font-family: 'Edu NSW ACT Cursive', cursive; color: #2e9eff; font-size: 4rem; text-shadow: 0 0 10px rgba(46,158,255,0.4); }
+#selected-image-wrapper {
+    position: relative;
+    width: min(90vw, 600px);
+    height: min(50vw, 340px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    perspective: 1000px;
+}
+
+#selected-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: radial-gradient(circle at center, #007aff, #003366);
+    animation: glowPulse 3s ease-in-out infinite;
+    box-shadow: 0 0 80px rgba(0,122,255,0.6);
+    z-index: 0;
+    transform: translateZ(-10px);
+}
+
+#selected-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Thumbnail strip enhancements */
+.thumbnail-strip {
+    display: flex;
+    gap: clamp(10px, 1.5vw, 15px);
+    overflow-x: auto;
+    padding: 20px 0;
+    width: min(90vw, 600px);
+    margin: 0 auto;
+    justify-content: center;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Decorative soft backdrop for thumbnails */
+.thumbnail-strip::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 6px;
+  width: min(92vw, 640px);
+  height: 120px;
+  background: radial-gradient(60% 40% at 50% 30%, rgba(46,158,255,0.06), transparent 40%);
+  filter: blur(18px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.thumbnail-strip::-webkit-scrollbar {
+    display: none;
+}
+
+.thumbnail-strip img {
+    width: clamp(80px, 10vw, 100px);
+    height: clamp(80px, 10vw, 100px);
+    border-radius: 15px;
+    object-fit: cover;
+    cursor: pointer;
+  transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: brightness(0.8) saturate(0.8);
+    transform-origin: center;
+  position: relative; /* needed for ::after glow */
+}
+
+/* glossy sheen on thumbnails */
+.thumbnail-strip img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  mix-blend-mode: overlay;
+  opacity: 0.8;
+  transition: transform 420ms ease, opacity 320ms ease;
+  transform: translateY(6px) scale(0.98) skewX(-2deg);
+  pointer-events: none;
+}
+
+.thumbnail-strip img:hover::before {
+  transform: translateY(0) scale(1) skewX(0deg);
+  opacity: 1;
+}
+
+/* subtle floating particles over thumbnails for motion */
+.thumbnail-strip .thumb-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(46,158,255,0.14);
+  filter: blur(2px);
+  pointer-events: none;
+  animation: floatTiny 6s linear infinite;
+}
+
+@keyframes floatTiny { 0%{ transform: translateY(0);} 100%{ transform: translateY(-60px);} }
+
+.thumbnail-strip img:hover {
+  transform: scale(1.15) translateY(-6px) rotateX(6deg) rotateY(4deg);
+    filter: brightness(1) saturate(1.2);
+    box-shadow: 0 15px 30px rgba(0,122,255,0.3);
+}
+
+.thumbnail-strip img.selected {
+    transform: scale(1.1);
+    filter: brightness(1.1) saturate(1.2);
+    box-shadow: 0 0 30px rgba(0,122,255,0.7);
+    border: 2px solid #2e9eff;
+}
+
+/* entrance animation for thumbnails (staggered) */
+@keyframes thumbIn { 0%{ opacity:0; transform: translateY(14px) scale(0.98);} 100%{ opacity:1; transform: translateY(0) scale(1);} }
+.thumbnail-strip img { opacity: 0; animation: thumbIn 560ms ease forwards; }
+.thumbnail-strip img:nth-child(1){ animation-delay: 80ms; }
+.thumbnail-strip img:nth-child(2){ animation-delay: 160ms; }
+.thumbnail-strip img:nth-child(3){ animation-delay: 240ms; }
+.thumbnail-strip img:nth-child(4){ animation-delay: 320ms; }
+.thumbnail-strip img:nth-child(5){ animation-delay: 400ms; }
+.thumbnail-strip img:nth-child(6){ animation-delay: 480ms; }
+
+/* subtle animated ring around social icons on hover (won't hide the logos) */
+.social-icon::before{
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 18px;
+  background: conic-gradient(from 0deg, rgba(246, 240, 214, 0.12), rgba(106, 67, 41, 0.08), transparent 60%);
+  opacity: 0;
+  transition: opacity 320ms ease, transform 320ms ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.social-icon:hover::before,
+.social-icon:focus-visible::before { opacity: 1; transform: scale(1.03); }
+
+/* Social Icons Container */
+.social-icons {
+  --icon-size: 60px;
+  --icon-spacing: 20px;
+  --hover-scale: 1.15;
+  --hover-lift: -8px;
+  
+  display: flex;
+  justify-content: center;
+  gap: var(--icon-spacing);
+  margin: 20px 0;
+  padding: 10px 0;
+}
+
+/* Add hover effect to main image */
+#selected-image-wrapper:hover #selected-image {
+    transform: translateZ(20px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Add cool image switch animation */
+@keyframes imageSwitch {
+    0% { transform: translateZ(0) rotateY(0); }
+    20% { transform: translateZ(40px) rotateY(10deg); }
+    80% { transform: translateZ(40px) rotateY(-10deg); }
+    100% { transform: translateZ(0) rotateY(0); }
+}
+
+#selected-image.switching {
+    animation: imageSwitch 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animated halo / ring around the selected image */
+#selected-image-wrapper::before{
+  content: '';
+  position: absolute;
+  inset: -18px;
+  border-radius: 22px;
+  background: conic-gradient(from 180deg, rgba(46,158,255,0.06), rgba(125,211,252,0.03));
+  filter: blur(18px);
+  opacity: 0.9;
+  z-index: 0;
+  transition: transform 420ms ease, opacity 420ms ease;
+  transform: scale(0.98);
+  pointer-events: none;
+}
+
+#selected-image-wrapper:hover::before{ transform: scale(1.02); opacity: 1; }
+
+/* ===== WHY ME SECTION ===== */
+.section-why {
+    min-height: 60vh;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+}
+.section-why h2 {
+    font-family: 'Edu NSW ACT Cursive', cursive;
+    color: #2e9eff;
+    font-size: 3rem;
+    text-align: center;
+}
+.why-boxes { display: flex; gap: 60px; flex-wrap: wrap; justify-content: center; }
+.why-box {
+    position: relative;
+    width: 320px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    transition: 0.5s;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.why-box::before, .why-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50px;
+    width: 50%;
+    height: 100%;
+    background: #2e9eff;
+    border-radius: 8px;
+    transform: skewX(15deg);
+    transition: 0.5s;
+    filter: blur(20px);
+    z-index: 0;
+}
+.why-box::after { left: 50px; background: #0c1624; opacity: 0.3; }
+.why-box:hover::before, .why-box:hover::after { transform: skewX(0deg); left: 20px; width: calc(100% - 40px); }
+.why-box .content {
+    position: relative;
+    z-index: 1;
+    padding: 30px;
+    background: rgba(46,158,255,0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(46,158,255,0.3);
+    border-radius: 20px;
+    transition: all 0.5s;
+    color: #fff;
+}
+.why-box .content h3 { font-family: 'Inter', sans-serif; font-size: 20px; margin-bottom: 20px; }
+.why-box .content ul { list-style: none; padding-left: 0; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.8; }
+.why-box .content ul li { margin-bottom: 10px; position: relative; padding-left: 15px; }
+.why-box .content ul li::before { content: '•'; position: absolute; left: 0; color: #2e9eff; }
+
+/* Contact Section and Social Icons Styling */
+.section-contact {
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+/* Social Icons System */
+.social-icons {
+    --icon-size: 60px;
+    --icon-spacing: 20px;
+    --hover-scale: 1.15;
+    --hover-lift: -8px;
+    --theme-cream: #f6f0d6;
+    --theme-brown: #6a4329;
+    
+    display: flex;
+    justify-content: center;
+    gap: var(--icon-spacing);
+    margin: 20px 0;
+    padding: 10px 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Social Icon Base */
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    position: relative;
+    text-decoration: none !important;
+    border-radius: 50%;
+    background: linear-gradient(135deg, 
+        rgba(106, 67, 41, 0.15),
+        rgba(106, 67, 41, 0.25)
+    );
+    border: 2px solid rgba(246, 240, 214, 0.2);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    transform: translateZ(0);
+    overflow: visible;
+    isolation: isolate;
+}
+
+/* Icon Image */
+.social-icon img {
+    width: calc(var(--icon-size) * 0.466);
+    height: calc(var(--icon-size) * 0.466);
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    filter: brightness(1.1);
+    z-index: 2;
+}
+
+/* Hover Effects */
+.social-icon:hover {
+    background: linear-gradient(135deg,
+        rgba(106, 67, 41, 0.25),
+        rgba(106, 67, 41, 0.35)
+    );
+    border-color: rgba(246, 240, 214, 0.3);
+    transform: translateY(var(--hover-lift));
+    box-shadow: 
+        0 12px 24px rgba(106, 67, 41, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon:hover img {
+    transform: scale(var(--hover-scale));
+    filter: brightness(1.2);
+}
+
+/* Glow Effect */
+.social-icon::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    background: radial-gradient(circle at center,
+        rgba(246, 240, 214, 0.15),
+        transparent 70%
+    );
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.social-icon:hover::after {
+    opacity: 1;
+}
+
+/* Brand-specific styles */
+.social-icon.instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.social-icon.x {
+    background: linear-gradient(135deg, #000000 0%, #14171A 100%);
+}
+
+/* Active/Click State */
+.social-icon:active {
+    transform: translateY(calc(var(--hover-lift) * 0.5));
+}
+
+/* Focus State */
+.social-icon:focus {
+    outline: none;
+}
+
+.social-icon:focus-visible {
+    box-shadow: 
+        0 0 0 3px rgba(246, 240, 214, 0.3),
+        0 8px 16px rgba(106, 67, 41, 0.2);
+}
+
+/* Mobile Optimization */
+@media (max-width: 600px) {
+    .social-icons {
+        --icon-size: 50px;
+        --icon-spacing: 15px;
+        --hover-scale: 1.1;
+        --hover-lift: -6px;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .social-icon {
+        transition: none;
+    }
+    
+    .social-icon:hover {
+        transform: translateY(-4px);
+    }
+    
+    .social-icon img {
+        transition: none;
+    }
+    
+    .social-icon::after {
+        display: none;
+    }
+}
+
+.section-contact h2 {
+    font-size: 3rem;
+    color: #f6f0d6;
+    margin-bottom: 10px;
+    font-family: 'Edu NSW ACT Cursive', cursive;
+}
+
+.section-contact p {
+    font-size: 1rem;
+    color: #f6f0d6;
+    margin-bottom: 20px;
+}
+
+.social-icons {
+    --icon-size: 60px;
+    --icon-spacing: 20px;
+    --hover-scale: 1.15;
+    --hover-lift: -8px;
+    
+    display: flex;
+    justify-content: center;
+    gap: var(--icon-spacing);
+    margin: 20px 0;
+    padding: 10px 0;
+}
+
+/* Define CSS custom properties for consistency */
+:root {
+  --icon-size: 48px;
+  --hover-lift: -3px;
+  --hover-scale: 1.1;
+}
+
+/* Enhanced social icons with combined effects */
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  text-decoration: none !important;
+  border-radius: 50%;
+  position: relative;
+  background: linear-gradient(135deg, rgba(106, 67, 41, 0.1), rgba(106, 67, 41, 0.2));
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transform: translateZ(0);
+  will-change: transform;
+  box-shadow: 
+    0 6px 18px rgba(106, 67, 41, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px rgba(246, 240, 214, 0.1);
+  overflow: visible;
+  isolation: isolate;
+}
+
+.social-icon img {
+  display: block;
+  width: calc(var(--icon-size) * 0.7); /* Adjusted from 0.466 for better icon fit (original may have been too small) */
+  height: calc(var(--icon-size) * 0.7);
+  position: relative;
+  z-index: 2;
+  filter: brightness(1.1);
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transform: translateZ(0);
+}
+
+/* Outer ring effect */
+.social-icon::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid rgba(246, 240, 214, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  z-index: 0;
+}
+
+/* Glow effect */
+.social-icon::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(circle at center, 
+    rgba(246, 240, 214, 0.15),
+    transparent 60%
+  );
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Hover States */
+.social-icon:hover {
+  transform: translateY(var(--hover-lift));
+  background: linear-gradient(135deg, 
+    rgba(106, 67, 41, 0.2), 
+    rgba(106, 67, 41, 0.3)
+  );
+  box-shadow: 
+    0 15px 30px rgba(106, 67, 41, 0.25),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    inset 0 2px rgba(246, 240, 214, 0.2);
+}
+
+.social-icon:hover img {
+  transform: scale(var(--hover-scale));
+  filter: brightness(1.2) drop-shadow(0 4px 12px rgba(246, 240, 214, 0.2));
+}
+
+.social-icon:hover::before {
+  border-color: rgba(246, 240, 214, 0.2);
+  transform: scale(1.1);
+}
+
+.social-icon:hover::after {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Group hover effects */
+.social-icons:hover .social-icon {
+  opacity: 0.7;
+  transform: scale(0.95);
+}
+
+.social-icons:hover .social-icon:hover {
+  opacity: 1;
+  transform: translateY(var(--hover-lift)) scale(1); /* Added scale(1) to override group scale-down and ensure lift works cleanly */
+}
+
+/* Remove border for Instagram icon */
+.social-icon.instagram::before {
+  border: none !important;
+}
+
+/* Click effect */
+.social-icon:active {
+  transform: translateY(calc(var(--hover-lift) * 0.5)) scale(0.95);
+}
+
+/* Brand-specific styles */
+.social-icon.instagram {
+  background: linear-gradient(135deg, #833AB4, #FD1D1D, #F56040);
+}
+
+.social-icon.x {
+  background: #000;
+}
+
+/* Accessibility */
+.social-icon:focus {
+  outline: none;
+}
+
+.social-icon:focus-visible {
+  box-shadow: 
+    0 0 0 3px rgba(246, 240, 214, 0.3),
+    0 6px 18px rgba(106, 67, 41, 0.2);
+  transform: translateY(-4px);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .social-icon,
+  .social-icon *,
+  .social-icon::before,
+  .social-icon::after {
+    transition-duration: 0.1s !important;
+    animation: none !important;
+  }
+  
+  .social-icon:hover {
+    transform: translateY(-4px);
+  }
+  
+  .social-icons:hover .social-icon {
+    transform: none;
+  }
+  
+  .social-icons:hover .social-icon:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Mobile Optimization */
+@media (max-width: 600px) {
+  .social-icons {
+    --icon-size: 50px;
+    --icon-spacing: 15px;
+    --hover-scale: 1.1;
+    --hover-lift: -6px;
+  }
+  
+  .social-icon {
+    box-shadow: 
+      0 4px 12px rgba(106, 67, 41, 0.2),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .social-icon:hover {
+    box-shadow: 
+      0 8px 20px rgba(106, 67, 41, 0.25),
+      0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Instagram branded look */
+.social-icon.x {
+  background: linear-gradient(135deg, #000000 0%, #0f172a 60%);
+  border: 1px solid rgba(125,211,252,0.06);
+}
+.social-icon.x::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 30% 30%, rgba(29,161,242,0.08), transparent 30%);
+  filter: blur(6px);
+  opacity: 0.08;
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+.social-icon.x:hover::after { opacity: 0.36; transform: scale(1.02); }
+
+.social-icon.instagram {
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  border: 1px solid rgba(238, 77, 141, 0.13); /* subtle pinkish border for IG */
+}
+.social-icon.instagram::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 60% 40%, rgba(253, 29, 120, 0.14), transparent 32%);
+  filter: blur(6px);
+  opacity: 0.10;
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+.social-icon.instagram:hover::after {
+  opacity: 0.35;
+  transform: scale(1.02);
+}
+
+
+/* subtle breathing animation */
+@keyframes socialBreathe { 0%{ transform: scale(1);} 50%{ transform: scale(1.02);} 100%{ transform: scale(1);} }
+.social-icon { animation: socialBreathe 10s ease-in-out infinite; }
+
+/* accessible focus for social icons */
+.social-icon:focus {
+  outline: none;
+}
+.social-icon:focus-visible {
+  box-shadow: 0 0 0 4px rgba(46,158,255,0.16), 0 18px 44px rgba(46,158,255,0.12);
+  transform: translateY(-6px) scale(1.04);
+}
+
+/* display aria-label as tooltip on hover/focus */
+.social-icon::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: -42px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  background: rgba(2,6,23,0.85);
+  color: var(--accent-2);
+  font-size: 12px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  white-space: nowrap;
+}
+.social-icon:hover::after,
+.social-icon:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+/* click ripple for social icons */
+.social-icon .ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255,255,255,0.12);
+  pointer-events: none;
+}
+
+/* ===== SECTION STYLES ===== */
+.section-bottom,
+.section-why,
+.section-contact {
+    padding: clamp(3rem, 8vh, 6rem) clamp(1rem, 5vw, 3rem);
+    position: relative;
+}
+
+.section-bottom h2,
+.section-why h2,
+.section-contact h2 {
+    font-family: 'Edu NSW ACT Cursive', cursive;
+    color: #2e9eff;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    text-align: center;
+    text-shadow: 0 0 10px rgba(46,158,255,0.4);
+    margin-bottom: clamp(2rem, 4vh, 3rem);
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+/* Decorative underline + animated glow for section headings */
+.section-bottom h2::after,
+.section-why h2::after,
+.section-contact h2::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 3px;
+  width: 60px;
+  background: linear-gradient(90deg, transparent, #2e9eff 25%, #2e9eff 75%, transparent);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(46,158,255,0.45);
+  animation: lineGlow 3s ease-in-out infinite, lineShine 4s linear infinite;
+  will-change: width, opacity, box-shadow, background-position;
+}
+
+/* Slightly stagger the heading line animations for a wave effect */
+.section-bottom h2::after { animation-delay: -0.6s; }
+.section-why h2::after { animation-delay: -1.4s; }
+.section-contact h2::after { animation-delay: -2.2s; }
+
+@keyframes lineGlow {
+  0%, 100% {
+    opacity: 0.65;
+    width: 40px;
+    box-shadow: 0 0 8px rgba(46,158,255,0.28);
+  }
+  50% {
+    opacity: 1;
+    width: 140px;
+    box-shadow: 0 0 22px rgba(46,158,255,0.6);
+  }
+}
+
+@keyframes lineShine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Thumbnail-specific underline/glow (selected state) */
+.thumbnail-strip img::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #2e9eff, transparent);
+  opacity: 0;
+  transition: width 260ms ease, opacity 260ms ease, box-shadow 260ms ease;
+  pointer-events: none;
+}
+
+.thumbnail-strip img.selected::after {
+  width: 60%;
+  opacity: 1;
+  box-shadow: 0 0 14px rgba(46,158,255,0.45);
+  animation: thumbLine 2.6s ease-in-out infinite;
+}
+
+@keyframes thumbLine {
+  0%, 100% { width: 40%; opacity: 0.6; }
+  50% { width: 80%; opacity: 1; }
+}
+
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
+@media (max-width: 1200px) {
+    .section-bottom h2,
+    .section-why h2,
+    .section-contact h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+    
+    #selected-image-wrapper {
+        width: min(90vw, 700px);
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+}
+
+@media (max-width: 900px) {
+    .section-top, 
+    .section-bottom, 
+    .section-why, 
+    .section-contact { 
+        padding: 80px clamp(1rem, 5vw, 2rem);
+    }
+    
+    .main-text h1 { 
+        font-size: clamp(2rem, 8vw, 4rem);
+    }
+    
+    .main-text h1 span { 
+        font-size: clamp(3rem, 10vw, 5rem);
+    }
+    
+    .image-circle { 
+        width: min(200px, 60vw);
+        height: min(200px, 60vw);
+    }
+    
+    .image-circle img { 
+        width: 70%;
+        height: 70%;
+    }
+    
+    .thumbnail-strip {
+        gap: clamp(0.5rem, 2vw, 1rem);
+        padding: 0.5rem;
+    }
+    
+    .thumbnail-strip img { 
+        width: clamp(60px, 15vw, 80px);
+        height: clamp(60px, 15vw, 80px);
+        border-radius: clamp(10px, 2vw, 20px);
+    }
+    
+    .why-boxes { 
+        flex-direction: column;
+        gap: clamp(2rem, 4vh, 3rem);
+    }
+}
+
+@media (max-width: 600px) {
+    .section-bottom h2,
+    .section-why h2,
+    .section-contact h2 {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+    }
+    
+    .why-box {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .why-box .content {
+        padding: clamp(1rem, 4vw, 2rem);
+    }
+    
+    .social-icons {
+        gap: clamp(1rem, 3vw, 2rem);
+    }
+}
+
+@media (max-width: 400px) {
+    .section-top, 
+    .section-bottom, 
+    .section-why, 
+    .section-contact {
+        padding: 60px 1rem;
+    }
+    
+    .thumbnail-strip img {
+        width: clamp(50px, 12vw, 60px);
+        height: clamp(50px, 12vw, 60px);
+    }
+    
+    .why-box .content {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== RESPONSIVE MEDIA QUERIES ===== (navbar/main-text/thumbnail additions) */
+
+/* ===== Large Laptops / Desktops (max-width: 1200px) ===== */
+@media (max-width: 1200px) {
+  .main-text h1 {
+    font-size: 100px;
+  }
+  .main-text h1 span {
+    font-size: 120px;
+  }
+  .image-circle {
+    width: 250px;
+    height: 250px;
+  }
+  .image-circle img {
+    width: 180px;
+    height: 180px;
+  }
+  #selected-image-wrapper {
+    width: 700px;
+    height: 400px;
+  }
+  .thumbnail-strip img {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* ===== Tablets / Small Laptops (max-width: 900px) ===== */
+@media (max-width: 900px) {
+  /* Navbar */
+  .navbar {
+    height: 55px;
+    gap: 15px;
+  }
+  .navbar a {
+    font-size: 15px;
+    padding: 6px 12px;
+  }
+  .navbar-toggle {
+    width: 35px;
+    height: 35px;
+    top: 10px;
+    right: 15px;
+  }
+
+  /* Hero Section */
+  .section-top {
+    flex-direction: column;
+    text-align: center;
+    gap: 50px;
+    padding: 100px 20px;
+  }
+  .main-text h1 {
+    font-size: 85px;
+  }
+  .main-text h1 span {
+    font-size: 95px;
+  }
+  .role-top, .role-bottom {
+    position: static;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+  }
+  .image-circle {
+    width: 220px;
+    height: 220px;
+  }
+  .image-circle img {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Thumbnail Section */
+  #selected-image-wrapper {
+    width: 550px;
+    height: 310px;
+  }
+  #selected-image {
+    border-radius: 30px;
+  }
+  .thumbnail-strip {
+    gap: 10px;
+  }
+  .thumbnail-strip img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .section-bottom h2 {
+    font-size: 3rem;
+  }
+
+  /* Why Section */
+  .why-boxes {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+/* ===== Phones (max-width: 600px) ===== */
+@media (max-width: 600px) {
+  /* Navbar */
+  .navbar {
+    height: 50px;
+    gap: 10px;
+    justify-content: center;
+  }
+  .navbar a {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+  .navbar-toggle {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+
+  /* Hero Section */
+  .section-top {
+    flex-direction: column;
+    padding: 100px 15px 60px;
+    text-align: center;
+  }
+  .main-text h1 {
+    font-size: 60px;
+  }
+  .main-text h1 span {
+    font-size: 70px;
+  }
+  .role-top, .role-bottom {
+    font-size: 12px;
+  }
+  .image-circle {
+    width: 180px;
+    height: 180px;
+  }
+  .image-circle img {
+    width: 120px;
+    height: 120px;
+  }
+
+  /* Thumbnail Section */
+  .section-bottom {
+    padding: 40px 10px;
+  }
+  .section-bottom h2 {
+    font-size: 2.5rem;
+  }
+  #selected-image-wrapper {
+    width: 320px;
+    height: 180px;
+  }
+  #selected-image {
+    border-radius: 25px;
+  }
+  .thumbnail-strip {
+    gap: 8px;
+  }
+  .thumbnail-strip img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Why Section */
+  .section-why h2 {
+    font-size: 2.4rem;
+  }
+  .why-box .content {
+    padding: 20px;
+    font-size: 14px;
+  }
+
+  /* Contact Section */
+  .section-contact h2 {
+    font-size: 2.5rem;
+  }
+  .social-icons {
+    gap: 15px;
+  }
+  .social-icon {
+    transform: scale(1.2);
+  }
+  .social-icon:hover {
+    transform: scale(1.5);
+  }
+}
+
+/* ===== Small Phones (max-width: 400px) ===== */
+@media (max-width: 400px) {
+  .navbar a {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  .main-text h1 {
+    font-size: 45px;
+  }
+  .main-text h1 span {
+    font-size: 55px;
+  }
+  .image-circle {
+    width: 150px;
+    height: 150px;
+  }
+  .image-circle img {
+    width: 100px;
+    height: 100px;
+  }
+  #selected-image-wrapper {
+    width: 250px;
+    height: 140px;
+  }
+  .thumbnail-strip img {
+    width: 50px;
+    height: 50px;
+  }
+  .section-bottom h2,
+  .section-why h2,
+  .section-contact h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* Performance: reduce heavy shadows/width on small screens */
+@media (max-width: 600px) {
+  .section-bottom h2::after,
+  .section-why h2::after,
+  .section-contact h2::after { box-shadow: 0 0 8px rgba(46,158,255,0.28); }
+  .thumbnail-strip img.selected::after { box-shadow: 0 0 8px rgba(46,158,255,0.36); }
+  .social-icon { width: 56px; height: 56px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="#section-top" role="menuitem" tabindex="0">Home</a>
+    <a href="#section-bottom" role="menuitem" tabindex="0">Thumbnails</a>
+    <a href="#section-why" role="menuitem" tabindex="0">Why Me</a>
+    <a href="#contact-section" role="menuitem" tabindex="0">Contact</a>
+</nav>
+<button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle navigation menu" aria-expanded="false">≡</button>
+
+<!-- HERO SECTION -->
+<div class="section-top fade-in-section" id="section-top" data-delay="0">
+    <div class="text-block" id="text-block" data-parallax>
+        <div class="role-top">GRAPHICS DESIGNER</div>
+        <div class="main-text"><h1>HELLO I'M <span>VINAY</span></h1></div>
+        <div class="role-bottom">2D ANIMATOR</div>
+    </div>
+    <div class="image-circle" id="image-circle" data-parallax>
+        <img src="ch glow.png" alt="Vinay" id="main-img">
+    </div>
+</div>
+
+<!-- THUMBNAILS SECTION -->
+<div class="section-bottom fade-in-section" id="section-bottom" data-delay="80">
+    <h2>Thumbnails</h2>
+    <div id="selected-image-wrapper" data-parallax>
+        <div id="selected-background"></div>
+        <img src="Logan Paul.png" alt="Selected" id="selected-image">
+    </div>
+    <div class="thumbnail-strip" id="thumbnail-strip">
+        <img src="Logan Paul.png" class="selected">
+        <img src="Fakemon That i hate.png">
+        <img src="faild.png">
+        <img src="MrBeast_SnakeVideo2.png">
+        <img src="Notax.png">
+        <img src="Truth.png">
+    </div>
+</div>
+
+<!-- WHY ME SECTION -->
+<div class="section-why fade-in-section" id="section-why" data-delay="160">
+    <h2>Why Me</h2>
+    <div class="why-boxes">
+        <div class="why-box">
+            <div class="content">
+                <h3>Working With Us</h3>
+                <ul>
+                    <li>We craft it ourselves with attention to detail</li>
+                    <li>We deliver on time every time</li>
+                    <li>Constant updates and communication</li>
+                </ul>
+            </div>
+        </div>
+        <div class="why-box">
+            <div class="content">
+                <h3>Working With Others</h3>
+                <ul>
+                    <li>Outsource work from Upwork or Fiverr</li>
+                    <li>Often fail to deliver on time</li>
+                    <li>Poor communication and lack of updates</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<div class="section-contact fade-in-section" id="contact-section" data-delay="240">
+    <h2>Contact Me</h2>
+    <p>Feel free to reach out through my social media profiles:</p>
+    <div class="social-icons">
+        <a href="https://www.instagram.com/errrorper404/" target="_blank" class="social-icon instagram">
+            <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+            <span class="sr-only">Follow me on Instagram</span>
+        </a>
+        <a href="https://x.com/errorper404" target="_blank" class="social-icon x" aria-label="X">
+            <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            <span class="sr-only">Follow me on X (formerly Twitter)</span>
+        </a>
+    </div>
+    <p style="margin-top:20px;font-size:0.8rem;color:var(--cream);">
+        Let's connect and create something amazing together!
+    </p>
+</div>
+
+<script>
+
+/* ===== NAVBAR SHOW/HIDE ON SCROLL ===== */
+let navbar = document.getElementById('navbar');
+let prevScrollPos = window.pageYOffset;
+let isNavbarLocked = false;
+let scrollTimeout;
+
+const handleScroll = () => {
+    if (!isNavbarLocked) {
+        const currentScrollPos = window.pageYOffset;
+        if (prevScrollPos > currentScrollPos) {
+            navbar.classList.remove('hide');
+        } else {
+            navbar.classList.add('hide');
+        }
+        prevScrollPos = currentScrollPos;
+    }
+};
+
+// Throttled scroll listener for better performance
+window.addEventListener('scroll', () => {
+    if (!scrollTimeout) {
+        scrollTimeout = setTimeout(() => {
+            handleScroll();
+            scrollTimeout = null;
+        }, 10);
+    }
+}, { passive: true });
+
+/* ===== NAVBAR LINKS CLICK HANDLER ===== */
+document.querySelectorAll('.navbar a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.getAttribute('href');
+        smoothScroll(target);
+        
+        // Update URL without jumping
+        window.history.pushState(null, '', target);
+    });
+});
+
+/* ===== NAVBAR TOGGLE BUTTON ===== */
+let toggle = document.getElementById('navbar-toggle');
+toggle.onclick = () => {
+    isNavbarLocked = !isNavbarLocked;
+    navbar.classList.toggle('hide', !isNavbarLocked);
+    toggle.setAttribute('aria-expanded', isNavbarLocked.toString());
+};
+
+/* ===== IMPROVED FADE-IN ON SCROLL (stagger + smoother easing + perf) ===== */
+const faders = document.querySelectorAll('.fade-in-section');
+const appearOptions = { 
+    threshold: [0, 0.12, 0.25], // Multiple thresholds for smoother activation
+    rootMargin: "0px 0px -10% 0px" 
+};
+
+// Create a single RAF callback for all animations
+let pendingAnimations = new Set();
+let rafScheduled = false;
+
+const updateAnimations = () => {
+    pendingAnimations.forEach(el => {
+        const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
+        el.style.transitionDelay = `${delay}ms`;
+        el.classList.add('visible');
+    });
+    pendingAnimations.clear();
+    rafScheduled = false;
+};
+
+const appearOnScroll = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.12) {
+            pendingAnimations.add(entry.target);
+            if (!rafScheduled) {
+                rafScheduled = true;
+                requestAnimationFrame(updateAnimations);
+            }
+            obs.unobserve(entry.target);
+        }
+    });
+}, appearOptions);
+
+// Observe all fade-in elements
+faders.forEach(f => appearOnScroll.observe(f));
+
+/* ===== THUMBNAILS (unchanged logic, preserved) ===== */
+const selectedImage = document.getElementById('selected-image');
+const thumbnails = document.querySelectorAll('.thumbnail-strip img');
+thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+        thumbnails.forEach(t => t.classList.remove('selected'));
+        thumb.classList.add('selected');
+        // gentle cross-fade
+        selectedImage.style.opacity = 0;
+        setTimeout(() => {
+            selectedImage.src = thumb.src;
+            selectedImage.style.opacity = 1;
+        }, 200);
+    });
+});
+
+// Make thumbnails keyboard-accessible: focus sets selected state; Enter/Space triggers click
+thumbnails.forEach(thumb => {
+  // ensure focusable
+  thumb.setAttribute('tabindex', '0');
+
+  thumb.addEventListener('focus', () => {
+    thumbnails.forEach(t => t.classList.remove('selected'));
+    thumb.classList.add('selected');
+  });
+
+  thumb.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      thumb.click();
+    }
+  });
+});
+
+/* ===== HERO MOUSE MOVEMENT (exactly as before) ===== */
+const container = document.getElementById("section-top");
+const imageCircle = document.getElementById("image-circle");
+const textBlock = document.getElementById("text-block");
+const mainImg = document.getElementById("main-img");
+
+// Mouse movement parallax (limited bounds)
+document.addEventListener("mousemove", e => {
+  const rect = container.getBoundingClientRect();
+  // if container is offscreen (mobile), guard
+  if (!rect.width || !rect.height) return;
+
+  const x = e.clientX - rect.left - rect.width / 2;
+  const y = e.clientY - rect.top - rect.height / 2;
+
+  // small movement factors
+  const moveFactor = 0.03;    // for avatar
+  const textFactor = 0.015;   // inverse for text
+  // apply transforms with clamps for limited boundary
+  const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+
+  const imgTx = clamp(x * moveFactor, -40, 40);
+  const imgTy = clamp(y * moveFactor, -40, 40);
+  const mainTx = clamp(x * moveFactor / 1.5, -30, 30);
+  const mainTy = clamp(y * moveFactor / 1.5, -30, 30);
+  const textTx = clamp(-x * textFactor, -25, 25);
+  const textTy = clamp(-y * textFactor, -20, 20);
+
+  imageCircle.style.transform = `translate(${imgTx}px, ${imgTy}px)`;
+  mainImg.style.transform = `translate(${mainTx}px, ${mainTy}px)`;
+  textBlock.style.transform = `translate(${textTx}px, ${textTy}px)`;
+});
+
+// Reset on mouse leave
+document.addEventListener("mouseleave", () => {
+    imageCircle.style.transform = "translate(0,0)";
+    mainImg.style.transform = "translate(0,0)";
+    textBlock.style.transform = "translate(0,0)";
+});
+
+/* ===== Lightweight scroll-linked parallax (smooth via rAF) =====
+   Nudges elements slightly during vertical scroll for depth */
+const parallaxTargets = document.querySelectorAll('[data-parallax]');
+let latestScroll = 0;
+let ticking = false;
+
+function onScrollUpdate() {
+  // compute viewport center
+  const vh = window.innerHeight;
+  parallaxTargets.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    // distance from center (negative above center, positive below)
+    const dist = rect.top + rect.height / 2 - vh / 2;
+    // normalized value (-1 .. 1) clamped
+    const norm = Math.max(-1, Math.min(1, dist / (vh / 1.2)));
+    // apply small translateY opposite to scroll for subtle parallax
+    const maxOffset = 18; // px
+    const ty = -norm * maxOffset;
+    // smoother transform composition preserving existing mouse transforms:
+    // we set a translateZ(0) to hint GPU compositing
+    el.style.transform = `translate3d(0, ${ty}px, 0)`;
+  });
+  ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+  latestScroll = window.scrollY;
+  if (!ticking) {
+    window.requestAnimationFrame(onScrollUpdate);
+    ticking = true;
+  }
+}, { passive: true });
+
+/* ===== small safety: also call on load to position parallax correctly ===== */
+window.addEventListener('load', () => {
+  onScrollUpdate();
+});
+
+/* ===== Keyboard Navigation Enhancement ===== */
+document.addEventListener('keydown', (e) => {
+    // Handle keyboard navigation
+    if (e.key === 'Tab') {
+        // Add focus styles for keyboard users
+        document.body.classList.add('keyboard-nav');
+    }
+    
+    // Support arrow key navigation in thumbnail strip
+    if (document.activeElement.closest('.thumbnail-strip')) {
+        const thumbnails = Array.from(document.querySelectorAll('.thumbnail-strip img'));
+        const currentIndex = thumbnails.indexOf(document.activeElement);
+        
+        if (e.key === 'ArrowRight' && currentIndex < thumbnails.length - 1) {
+            e.preventDefault();
+            thumbnails[currentIndex + 1].focus();
+            thumbnails[currentIndex + 1].click();
+        }
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+            e.preventDefault();
+            thumbnails[currentIndex - 1].focus();
+            thumbnails[currentIndex - 1].click();
+        }
+    }
+});
+
+// Remove focus styles when using mouse
+document.addEventListener('mousedown', () => {
+    document.body.classList.remove('keyboard-nav');
+});
+
+/* Add focus-visible polyfill styles */
+const style = document.createElement('style');
+style.textContent = `
+    .keyboard-nav :focus-visible {
+        outline: 3px solid #2e9eff !important;
+        outline-offset: 3px !important;
+    }
+    .thumbnail-strip img {
+        transition: transform 0.24s ease, box-shadow 0.24s ease, outline 0.2s ease;
+    }
+    .thumbnail-strip img:focus-visible {
+        transform: scale(1.15);
+    }
+`;
+document.head.appendChild(style);
+
+/* ===== preserve existing code behaviors (no changes) ===== */
+/* (navbar toggle already wired above, thumbnails wired above) */
+
+/* Social icon ripple and keyboard activation */
+document.querySelectorAll('.social-icon').forEach(icon => {
+  // make sure icons are keyboard-focusable (anchors already are)
+  icon.setAttribute('tabindex', '0');
+
+  // create ripple element
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  r.style.width = r.style.height = '0px';
+  icon.appendChild(r);
+
+  const createRipple = (clientX, clientY) => {
+    const rect = icon.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.6;
+    r.style.width = r.style.height = size + 'px';
+    r.style.left = (clientX - rect.left - size/2) + 'px';
+    r.style.top = (clientY - rect.top - size/2) + 'px';
+    r.style.transform = 'scale(0)';
+    r.style.opacity = '1';
+    r.style.transition = 'transform 520ms cubic-bezier(.2,.9,.2,1), opacity 520ms ease';
+    requestAnimationFrame(() => {
+      r.style.transform = 'scale(1)';
+      r.style.opacity = '0';
+    });
+    setTimeout(() => { r.style.width = r.style.height = '0px'; }, 600);
+  };
+
+  icon.addEventListener('click', (e) => {
+    createRipple(e.clientX, e.clientY);
+  });
+
+  // keyboard activation: Enter/Space
+  icon.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      // emulate a click at the center
+      const rect = icon.getBoundingClientRect();
+      createRipple(rect.left + rect.width/2, rect.top + rect.height/2);
+      // follow link if present
+      const href = icon.getAttribute('href');
+      if (href) window.open(href, icon.getAttribute('target') || '_self');
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>
